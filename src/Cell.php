@@ -57,7 +57,7 @@ class Cell
 
     private function getNeighbor($x, $y)
     {
-        return isset($this->world->world[$x][$y]) ? $this->world->world[$x][$y] : null;
+        return isset($this->world->map[$x][$y]) ? $this->world->map[$x][$y] : null;
     }
 
     public function __toString()

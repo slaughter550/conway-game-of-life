@@ -4,7 +4,7 @@ require "Cell.php";
 
 class World
 {
-    public $world = [];
+    public $map = [];
     private $size;
 
     public function __construct($size)
@@ -16,16 +16,16 @@ class World
     {
         $width = $height = $this->size;
         foreach (range(0, $width) as $x) {
-            $this->world[$x] = [];
+            $this->map[$x] = [];
 
             foreach (range(0, $height) as $y) {
-                $this->world[$x][$y] = (new Cell($this, $x, $y, (bool) random_int(0, 1)));
+                $this->map[$x][$y] = (new Cell($this, $x, $y, (bool) random_int(0, 1)));
             }
         }
 
         while (true) {
             $dup = [];
-            foreach ($this->world as $x => &$row) {
+            foreach ($this->map as $x => &$row) {
                 foreach ($row as $y => &$cell) {
                     $neighbors = $cell->neighbors();
                     $dup[$x][$y] = $neighbors;
@@ -39,21 +39,21 @@ class World
 
             // $this->print($dup);
 
-            foreach ($this->world as $x => &$row) {
+            foreach ($this->map as $x => &$row) {
                 foreach ($row as $y => &$cell) {
                     $cell->sync();
                 }
             }
 
-            $this->print($this->world);
+            $this->print($this->map);
             sleep(1);
         }
     }
 
-    private function print($world)
+    private function print($map)
     {
         system('clear');
-        foreach ($world as $row) {
+        foreach ($map as $row) {
             foreach ($row as $cell) {
                 print " $cell ";
             }
