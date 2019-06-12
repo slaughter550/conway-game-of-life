@@ -24,11 +24,9 @@ class World
         }
 
         while (true) {
-            $dup = [];
             foreach ($this->map as $x => &$row) {
                 foreach ($row as $y => &$cell) {
                     $neighbors = $cell->neighbors();
-                    $dup[$x][$y] = $neighbors;
                     if ($cell->isLive() && ($neighbors < 2 || $neighbors > 3)) {
                         $cell->toggle();
                     } elseif (! $cell->isLive() && $neighbors == 3) {
@@ -37,27 +35,28 @@ class World
                 }
             }
 
-            // $this->print($dup);
-
             foreach ($this->map as $x => &$row) {
                 foreach ($row as $y => &$cell) {
                     $cell->sync();
                 }
             }
 
-            $this->print($this->map);
+            system('clear');
+            print($this);
             sleep(1);
         }
     }
 
-    private function print($map)
+    public function __toString()
     {
-        system('clear');
-        foreach ($map as $row) {
+        $string = "";
+        foreach ($this->map as $row) {
             foreach ($row as $cell) {
-                print " $cell ";
+                $string .= " $cell ";
             }
-            print "\n";
+            $string .= "\n";
         }
+
+        return $string;
     }
 }
